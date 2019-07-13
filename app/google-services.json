@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "888355516209",
+    "firebase_url": "https://healthworker-da6f9.firebaseio.com",
+    "project_id": "healthworker-da6f9",
+    "storage_bucket": "healthworker-da6f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888355516209:android:c78619d3ed5b0988",
+        "android_client_info": {
+          "package_name": "com.example.health_worker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888355516209-orodiemc0n3i5474ocov1rmnc7ds6jth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWMh50M-URrW-1xvyFXvugYdhL_h99q5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888355516209-orodiemc0n3i5474ocov1rmnc7ds6jth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
