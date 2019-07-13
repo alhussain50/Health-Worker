@@ -1,53 +1,95 @@
 package com.example.healthworker;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class RegisterActivity extends AppCompatActivity {
-    Intent next_activity;
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+
+    ProgressBar progressBar;
+    EditText regEmail, regPass;
+
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        next_activity=new Intent(this,MainActivity.class);
-        final EditText name_field=(EditText)findViewById(R.id.Name);
-        final EditText email_field=(EditText)findViewById(R.id.Email);
-        final EditText password_field=(EditText)findViewById(R.id.Password);
-        final EditText confirm_password_field=(EditText)findViewById(R.id.confirm_password);
-        Button registerbutton=(Button)findViewById(R.id.register);
-        registerbutton.setOnClickListener(new View.OnClickListener() {
+
+        regEmail = (EditText) findViewById(R.id.regEmail);
+        regPass  = (EditText) findViewById(R.id.regPass);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        mAuth = FirebaseAuth.getInstance();
+        findViewById(R.id.regSignUp).setOnClickListener(this);
+    }
+
+    public void registerUser(){
+        String email = regEmail.getText().toString().trim();
+        String password = regPass.getText().toString().trim();
+
+        if(email.isEmpty()){
+            regEmail.setError("Email is required!!");
+            regEmail.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            regEmail.setError("Please enter a valid email");
+            regEmail.requestFocus();
+            return;
+        }
+
+        if(password.isEmpty()){
+            regPass.setError("Password is required!!");
+            regEmail.requestFocus();
+            return;
+        }
+
+        if(password.length()<6){
+            regPass.setError("Minimum length of password should be 6");
+            regPass.requestFocus();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                String name=name_field.getText().toString();
-                String email_id=email_field.getText().toString();
-                String password_1=password_field.getText().toString();
-                String password_2=confirm_password_field.getText().toString();
-                if(password_1.equals(password_2))
-                {
-                    //your code to register the user like an entry in the database
-                    SharedPreferences sharedPreferences=getSharedPreferences("USER_CREDENTIALS",MODE_PRIVATE);
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putString("NAME",name);
-                    editor.putString("EMAIL",email_id);
-                    editor.putString("PASSWORD",password_1);
-                    editor.putBoolean("ISLOGGEDIN",true);
-                    editor.commit();
-                    startActivity(next_activity);
-                }
-                else
-                {
-                    Toast.makeText(RegisterActivity.this,"Passwords don't match",Toast.LENGTH_LONG).show();
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Some error occured", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
+    }
+
+    @Override
+    public void onClick(View view){
+        switch (view.getId()) {
+            case R.id.regSignUp:
+                registerUser();
+                break;
+
+            case R.id.regLogin:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+
+        }
     }
 }
