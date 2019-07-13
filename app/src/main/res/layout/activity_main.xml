@@ -7,4 +7,10 @@
                 tools:context="com.example.health_worker.LoginActivity">
 
 
+    <Button
+            android:text="Click to continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/button" android:layout_marginTop="348dp"
+            android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" android:layout_marginRight="141dp" android:layout_marginEnd="141dp"/>
 </RelativeLayout>
