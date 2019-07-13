@@ -1,4 +1,4 @@
-package com.example.health_worker
+package com.example.healthworker
 
 import org.junit.Test
 

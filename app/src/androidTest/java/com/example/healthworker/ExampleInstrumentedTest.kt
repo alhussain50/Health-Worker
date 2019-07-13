@@ -1,4 +1,4 @@
-package com.example.health_worker
+package com.example.healthworker
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
